@@ -29,31 +29,25 @@ func parseFlags(data *Data) {
 
 	problem := false
 
-	gameID := flag.String("gameID", "", "ID of the game")
-	startPage := flag.Int("startPage", 1, "which workshop page to start at")
-	endPage := flag.Int("endPage", 0, "set which workshop page to end at")
-	delay := flag.Int("delay", 25, "set the delay between each request (in milliseconds)")
-	randomDelay := flag.Int("randomDelay", 0, "add an extra randomized duration to wait added to Delay before creating a new request (in milliseconds)")
-
+	flag.StringVar(&data.GameID, "gameID", "", "ID of the game")
+	flag.IntVar(&data.StartPage, "startPage", 1, "which workshop page to start at")
+	flag.IntVar(&data.EndPage, "endPage", 0, "set which workshop page to end at")
+	flag.IntVar(&data.Delay, "delay", 25, "set the delay between each request (in milliseconds)")
+	flag.IntVar(&data.RDelay, "randomDelay", 0, "add an extra randomized duration to wait added to Delay before creating a new request (in milliseconds)")
 	flag.Parse()
 
 	// Check if the gameID flag was provided
-	if *gameID == "" {
+	if data.GameID == "" {
 		fmt.Println("Error: the steam game ID is required")
 		problem = true
 	}
 
-	data.GameID = *gameID
-	data.StartPage = *startPage
-	data.EndPage = *endPage
-	data.Delay = *delay
-	data.RDelay = *randomDelay
+	// Do more checks here, if required...
 
 	if problem {
 		flag.Usage()
 		log.Fatalln("There is at least one problem that has to be resolved")
 	}
-
 }
 
 func main() {
